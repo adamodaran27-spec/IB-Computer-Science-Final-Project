@@ -49,11 +49,19 @@ def load_sprites():
     _doge_path = _os.path.join(_dir, "doge.png")
     if _os.path.exists(_doge_path):
         _img = pygame.image.load(_doge_path).convert_alpha()
-        ENEMY_SPRITES[0] = pygame.transform.scale(_img, (52, 52))
+        ENEMY_SPRITES[0] = pygame.transform.scale(_img, (100, 100))
     _titan_cat_path = _os.path.join(_dir, "titan cat.png")
     if _os.path.exists(_titan_cat_path):
         _img = pygame.image.load(_titan_cat_path).convert_alpha()
         CAT_SPRITES[9] = pygame.transform.scale(_img, (100, 100))
+    _tank_cat_path = _os.path.join(_dir, "tank cat.png")
+    if _os.path.exists(_tank_cat_path):
+        _img = pygame.image.load(_tank_cat_path).convert_alpha()
+        CAT_SPRITES[1] = pygame.transform.scale(_img, (56, 56))
+    _cow_cat_path = _os.path.join(_dir, "cow cat.png")
+    if _os.path.exists(_cow_cat_path):
+        _img = pygame.image.load(_cow_cat_path).convert_alpha()
+        CAT_SPRITES[4] = pygame.transform.scale(_img, (56, 56))
 
 CAT_DEFS = [
     {"id":0,  "name":"Basic Cat",    "cf_cost":0,   "hp":250,  "dmg":20,  "spd":2.0, "range":60,  "atk_cd":1.8, "color":(230,200,120), "shape":"round",  "size":28},
@@ -318,8 +326,8 @@ class Unit:
             sprite = sprite_dict[unit_id]
             if facing == -1:
                 sprite = pygame.transform.flip(sprite, True, False)
-            size = self.defn["size"]
-            surf.blit(sprite, (sx - size, sy - size))
+            sw, sh = sprite.get_size()
+            surf.blit(sprite, (sx - sw // 2, sy - sh // 2))
         else:
             draw_unit_shape(surf, sx, sy, self.defn.get("shape","round"), self.defn["size"], color, facing)
 
@@ -479,9 +487,18 @@ class DeployBar:
             pygame.draw.rect(surf, border_c,(bx, by, bw, bh), 2, border_radius=6)
 
             cdef = CAT_DEFS[cid]
-            draw_unit_shape(surf, bx + bw//2, by + 28,
-                            cdef.get("shape","round"), min(18, cdef["size"]//2),
-                            cdef["color"] if can else C_GRAY, 1)
+            if cid in CAT_SPRITES:
+                icon = pygame.transform.scale(CAT_SPRITES[cid], (44, 44))
+                if not can:
+                    dark = pygame.Surface((44, 44), pygame.SRCALPHA)
+                    dark.fill((80, 80, 80, 160))
+                    icon = icon.copy()
+                    icon.blit(dark, (0, 0))
+                surf.blit(icon, (bx + bw//2 - 22, by + 4))
+            else:
+                draw_unit_shape(surf, bx + bw//2, by + 28,
+                                cdef.get("shape","round"), min(18, cdef["size"]//2),
+                                cdef["color"] if can else C_GRAY, 1)
 
             draw_text(surf, cdef["name"][:9], bx+4, by+50, font_small,
                       C_WHITE if can else C_GRAY, shadow=False)
