@@ -7,7 +7,7 @@ import random
 
 pygame.init()
 
-# ── Constants ──────────────────────────────────────────────────────────────────
+
 SW, SH = 1280, 720
 FPS = 60
 SAVE_FILE = "save.json"
@@ -31,6 +31,11 @@ C_HP_BG      = ( 60,  20,  20)
 C_XP         = ( 80, 200, 240)
 
 GROUND_Y = SH - 160   # where units walk
+
+# Load background image
+import os as _os
+_bg_path = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "background.jpg")
+BG_IMAGE = pygame.transform.scale(pygame.image.load(_bg_path), (SW, SH))
 
 # ── Cat definitions ────────────────────────────────────────────────────────────
 # Each cat: name, cost(catfood), base_hp, base_dmg, base_spd, atk_range, atk_cd, color, shape, deploy_cost(xp-free, just catfood to unlock)
@@ -62,8 +67,7 @@ ENEMY_DEFS = [
     {"id":7, "name":"Le'boin",    "hp":300,  "dmg":20,  "spd":2.2, "range":55,  "atk_cd":1.5, "color":(160,200,240), "size":30, "xp":12, "shape":"round"},
 ]
 
-# ── Stage definitions ──────────────────────────────────────────────────────────
-# waves: list of (enemy_id, count, interval_s, start_delay_s)
+
 STAGES = [
     {"name":"Into the Future 1", "bg":(160,200,255), "enemy_base_hp":2000,
      "waves":[(0,5,2.0,3.0),(2,8,1.5,15.0)]},
@@ -87,11 +91,11 @@ STAGES = [
      "waves":[(4,2,5.0,3.0),(5,4,2.5,10.0),(6,4,2.5,20.0),(4,2,4.0,35.0)]},
 ]
 
-# ── Save / Load ────────────────────────────────────────────────────────────────
+
 DEFAULT_SAVE = {
     "cat_food": 20,
     "xp": 0,
-    "unlocked_cats": [0],       # Basic Cat is free
+    "unlocked_cats": [0],       
     "cat_levels": {str(i): 1 for i in range(10)},
     "stages_cleared": [],
 }
@@ -212,7 +216,7 @@ def emit(x, y, color, n=8):
                                    random.uniform(0.4, 0.9),
                                    random.randint(3, 6)))
 
-# ── Projectile ────────────────────────────────────────────────────────────────
+
 class Projectile:
     def __init__(self, x, y, target_x, speed, dmg, color, is_cannon=False):
         self.x, self.y = float(x), float(y)
@@ -254,7 +258,7 @@ class Projectile:
         else:
             pygame.draw.circle(surf, self.color, (sx, sy), 5)
 
-# ── Unit ──────────────────────────────────────────────────────────────────────
+
 class Unit:
     def __init__(self, x, defn, level=1, is_enemy=False):
         self.x = float(x)
@@ -281,8 +285,8 @@ class Unit:
         self.hit_flash   = max(0, self.hit_flash - dt)
         self.bob_t += dt * 3
 
-        # find nearest target
-        targets = enemies if not self.is_enemy else allies
+        # find nearest target (enemies parameter is always the hostile side)
+        targets = enemies
         nearest = None
         nearest_d = 9999
         for t in targets:
@@ -320,12 +324,8 @@ class Unit:
             color = C_WHITE
         facing = 1 if not self.is_enemy else -1
         draw_unit_shape(surf, sx, sy, self.defn.get("shape","round"), self.defn["size"], color, facing)
-        # hp bar
-        bw = self.defn["size"] * 2 + 10
-        draw_bar(surf, sx - bw//2, sy - self.defn["size"] - 10, bw, 6,
-                 self.hp, self.max_hp, C_GREEN if not self.is_enemy else C_RED)
 
-# ── Base ──────────────────────────────────────────────────────────────────────
+
 class Base:
     def __init__(self, x, hp, color, is_enemy=False):
         self.x = float(x)
@@ -364,7 +364,7 @@ class Base:
         draw_bar(surf, sx-50, GROUND_Y-155, 100, 10, self.hp, self.max_hp,
                  C_GREEN if not self.is_enemy else C_RED)
 
-# ── Cat Cannon ────────────────────────────────────────────────────────────────
+
 class CatCannon:
     COOLDOWN = 20.0
     DAMAGE   = 500
@@ -394,7 +394,7 @@ class CatCannon:
         projectiles.append(Projectile(src_x, GROUND_Y - 80, tx,
                                        6, self.DAMAGE, C_YELLOW, is_cannon=True))
 
-# ── Wave Spawner ──────────────────────────────────────────────────────────────
+
 class WaveSpawner:
     def __init__(self, stage_def, spawn_x):
         self.spawn_x = spawn_x
@@ -416,7 +416,7 @@ class WaveSpawner:
             edef = ENEMY_DEFS[eid]
             enemies.append(Unit(self.spawn_x, edef, level=1, is_enemy=True))
 
-# ── Screen shake ──────────────────────────────────────────────────────────────
+
 shake_timer = 0.0
 shake_mag   = 0.0
 
@@ -433,7 +433,7 @@ def get_shake():
                 random.randint(-int(shake_mag), int(shake_mag)))
     return (0, 0)
 
-# ── HUD / energy system ────────────────────────────────────────────────────────
+
 class DeployBar:
     MAX_ENERGY = 100.0
     REGEN = 4.0  # per second
@@ -521,7 +521,7 @@ class DeployBar:
 
 # ── Battle scene ──────────────────────────────────────────────────────────────
 class BattleScene:
-    WORLD_W = 3000
+    WORLD_W = 1280
     CAT_SPAWN_X = 250
 
     def __init__(self, stage_idx, save, screen):
@@ -653,23 +653,8 @@ class BattleScene:
             self.result = "lose"
 
     def draw_background(self):
-        bg = self.stage["bg"]
-        self.screen.fill(bg)
-        # Horizon gradient: draw stripes
-        for i in range(30):
-            t = i / 30
-            c = tuple(int(bg[j] * (1 - t*0.3)) for j in range(3))
-            pygame.draw.rect(self.screen, c, (0, i * (GROUND_Y//30), SW, GROUND_Y//30 + 1))
-        # Ground
-        gx = int(-self.cam_x % 80)
-        pygame.draw.rect(self.screen, C_GROUND, (0, GROUND_Y, SW, SH - GROUND_Y))
-        pygame.draw.rect(self.screen, C_DIRT, (0, GROUND_Y + 30, SW, SH - GROUND_Y - 30))
-        # Ground line
-        pygame.draw.line(self.screen, (60,100,30), (0, GROUND_Y), (SW, GROUND_Y), 3)
-        # Scrolling dots on ground
-        for i in range(0, SW + 80, 80):
-            dx = (i - gx) % (SW + 80) - 40
-            pygame.draw.circle(self.screen, (70,110,35), (dx, GROUND_Y + 15), 4)
+        # Draw background image scaled to screen
+        self.screen.blit(BG_IMAGE, (0, 0))
 
     def draw(self):
         self.draw_background()
@@ -930,7 +915,7 @@ class StageSelectScene:
 
     def draw(self):
         self.screen.fill(C_DARK)
-        draw_text(self.screen, "SELECT STAGE — Into the Future", SW//2, 20,
+        draw_text(self.screen, "SELECT STAGE: Into the Future", SW//2, 20,
                   font_big, C_WHITE, center=True)
         draw_text(self.screen, "Clear a stage to unlock the next",
                   SW//2, 58, font_small, C_GRAY, center=True)
