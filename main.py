@@ -36,6 +36,21 @@ import os as _os
 _bg_path = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "background.jpg")
 BG_IMAGE = pygame.transform.scale(pygame.image.load(_bg_path), (SW, SH))
 
+# Sprite dicts — populated in main() after display is created
+CAT_SPRITES = {}
+ENEMY_SPRITES = {}
+
+def load_sprites():
+    _dir = _os.path.dirname(_os.path.abspath(__file__))
+    _basic_cat_path = _os.path.join(_dir, "basic cat.png")
+    if _os.path.exists(_basic_cat_path):
+        _img = pygame.image.load(_basic_cat_path).convert_alpha()
+        CAT_SPRITES[0] = pygame.transform.scale(_img, (56, 56))
+    _doge_path = _os.path.join(_dir, "doge.png")
+    if _os.path.exists(_doge_path):
+        _img = pygame.image.load(_doge_path).convert_alpha()
+        ENEMY_SPRITES[0] = pygame.transform.scale(_img, (52, 52))
+
 CAT_DEFS = [
     {"id":0,  "name":"Basic Cat",    "cf_cost":0,   "hp":250,  "dmg":20,  "spd":2.0, "range":60,  "atk_cd":1.8, "color":(230,200,120), "shape":"round",  "size":28},
     {"id":1,  "name":"Tank Cat",     "cf_cost":30,  "hp":800,  "dmg":12,  "spd":1.0, "range":55,  "atk_cd":2.2, "color":(140,180,230), "shape":"round",  "size":36},
@@ -293,10 +308,16 @@ class Unit:
         if self.hit_flash > 0:
             color = C_WHITE
         facing = 1 if not self.is_enemy else -1
-        draw_unit_shape(surf, sx, sy, self.defn.get("shape","round"), self.defn["size"], color, facing)
-        bw = self.defn["size"] * 2 + 10
-        draw_bar(surf, sx - bw//2, sy - self.defn["size"] - 10, bw, 6,
-                 self.hp, self.max_hp, C_GREEN if not self.is_enemy else C_RED)
+        unit_id = self.defn.get("id")
+        sprite_dict = ENEMY_SPRITES if self.is_enemy else CAT_SPRITES
+        if unit_id in sprite_dict:
+            sprite = sprite_dict[unit_id]
+            if facing == -1:
+                sprite = pygame.transform.flip(sprite, True, False)
+            size = self.defn["size"]
+            surf.blit(sprite, (sx - size, sy - size))
+        else:
+            draw_unit_shape(surf, sx, sy, self.defn.get("shape","round"), self.defn["size"], color, facing)
 
 class Base:
     def __init__(self, x, hp, color, is_enemy=False):
@@ -925,6 +946,7 @@ class MenuScene:
 def main():
     screen = pygame.display.set_mode((SW, SH))
     pygame.display.set_caption("Battle Cats Clone")
+    load_sprites()
     clock = pygame.time.Clock()
     save  = load_save()
 
