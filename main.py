@@ -50,6 +50,10 @@ def load_sprites():
     if _os.path.exists(_doge_path):
         _img = pygame.image.load(_doge_path).convert_alpha()
         ENEMY_SPRITES[0] = pygame.transform.scale(_img, (52, 52))
+    _titan_cat_path = _os.path.join(_dir, "titan cat.png")
+    if _os.path.exists(_titan_cat_path):
+        _img = pygame.image.load(_titan_cat_path).convert_alpha()
+        CAT_SPRITES[9] = pygame.transform.scale(_img, (100, 100))
 
 CAT_DEFS = [
     {"id":0,  "name":"Basic Cat",    "cf_cost":0,   "hp":250,  "dmg":20,  "spd":2.0, "range":60,  "atk_cd":1.8, "color":(230,200,120), "shape":"round",  "size":28},
