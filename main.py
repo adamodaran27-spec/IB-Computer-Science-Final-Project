@@ -30,15 +30,12 @@ C_PANEL      = ( 20,  20,  30, 210)
 C_HP_BG      = ( 60,  20,  20)
 C_XP         = ( 80, 200, 240)
 
-GROUND_Y = SH - 160   # where units walk
+GROUND_Y = SH - 160
 
-# Load background image
 import os as _os
 _bg_path = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "background.jpg")
 BG_IMAGE = pygame.transform.scale(pygame.image.load(_bg_path), (SW, SH))
 
-# ── Cat definitions ────────────────────────────────────────────────────────────
-# Each cat: name, cost(catfood), base_hp, base_dmg, base_spd, atk_range, atk_cd, color, shape, deploy_cost(xp-free, just catfood to unlock)
 CAT_DEFS = [
     {"id":0,  "name":"Basic Cat",    "cf_cost":0,   "hp":250,  "dmg":20,  "spd":2.0, "range":60,  "atk_cd":1.8, "color":(230,200,120), "shape":"round",  "size":28},
     {"id":1,  "name":"Tank Cat",     "cf_cost":30,  "hp":800,  "dmg":12,  "spd":1.0, "range":55,  "atk_cd":2.2, "color":(140,180,230), "shape":"round",  "size":36},
@@ -52,10 +49,8 @@ CAT_DEFS = [
     {"id":9,  "name":"Titan Cat",    "cf_cost":80,  "hp":1500, "dmg":150, "spd":1.2, "range":75,  "atk_cd":3.5, "color":( 80, 80,180), "shape":"square", "size":50},
 ]
 
-# Deploy cost in "energy" that recharges (separate from catfood unlock)
 DEPLOY_ENERGY = [10, 15, 18, 14, 16, 20, 22, 25, 28, 35]
 
-# ── Enemy definitions ──────────────────────────────────────────────────────────
 ENEMY_DEFS = [
     {"id":0, "name":"Doge",       "hp":120,  "dmg":8,   "spd":1.8, "range":55,  "atk_cd":1.5, "color":(220,170, 80), "size":26, "xp":5,  "shape":"round"},
     {"id":1, "name":"Snache",     "hp":80,   "dmg":5,   "spd":3.0, "range":50,  "atk_cd":1.2, "color":(200,220,100), "size":22, "xp":3,  "shape":"tri"},
@@ -67,35 +62,23 @@ ENEMY_DEFS = [
     {"id":7, "name":"Le'boin",    "hp":300,  "dmg":20,  "spd":2.2, "range":55,  "atk_cd":1.5, "color":(160,200,240), "size":30, "xp":12, "shape":"round"},
 ]
 
-
 STAGES = [
-    {"name":"Into the Future 1", "bg":(160,200,255), "enemy_base_hp":2000,
-     "waves":[(0,5,2.0,3.0),(2,8,1.5,15.0)]},
-    {"name":"Into the Future 2", "bg":(150,190,250), "enemy_base_hp":3000,
-     "waves":[(0,6,1.8,2.0),(2,6,1.5,12.0),(1,3,2.5,20.0)]},
-    {"name":"Into the Future 3", "bg":(140,180,245), "enemy_base_hp":4000,
-     "waves":[(0,8,1.5,2.0),(7,4,2.0,10.0),(3,2,3.0,25.0)]},
-    {"name":"Metal City 1",      "bg":(130,160,200), "enemy_base_hp":5000,
-     "waves":[(1,6,2.0,2.0),(0,10,1.2,5.0),(3,3,3.0,20.0)]},
-    {"name":"Metal City 2",      "bg":(120,150,195), "enemy_base_hp":6500,
-     "waves":[(1,8,1.8,2.0),(6,3,3.0,15.0),(3,4,2.5,25.0)]},
-    {"name":"Metal City 3",      "bg":(110,140,190), "enemy_base_hp":8000,
-     "waves":[(5,4,2.5,2.0),(3,5,2.0,10.0),(4,2,4.0,30.0)]},
-    {"name":"Starfish Plains 1", "bg":(100,130,220), "enemy_base_hp":10000,
-     "waves":[(6,4,2.5,2.0),(1,8,1.5,10.0),(4,3,3.5,25.0)]},
-    {"name":"Starfish Plains 2", "bg":(90,120,215),  "enemy_base_hp":13000,
-     "waves":[(5,6,2.0,2.0),(6,4,2.5,12.0),(4,3,3.0,28.0)]},
-    {"name":"Starfish Plains 3", "bg":(80,110,210),  "enemy_base_hp":16000,
-     "waves":[(7,5,2.0,2.0),(5,6,1.8,10.0),(4,4,3.0,20.0)]},
-    {"name":"The Final Exam",    "bg":(60, 80,160),  "enemy_base_hp":25000,
-     "waves":[(4,2,5.0,3.0),(5,4,2.5,10.0),(6,4,2.5,20.0),(4,2,4.0,35.0)]},
+    {"name":"Stage 1",  "bg":(160,200,255), "enemy_base_hp":2000,  "waves":[(0,5,2.0,3.0),(2,8,1.5,15.0)]},
+    {"name":"Stage 2",  "bg":(150,190,250), "enemy_base_hp":3000,  "waves":[(0,6,1.8,2.0),(2,6,1.5,12.0),(1,3,2.5,20.0)]},
+    {"name":"Stage 3",  "bg":(140,180,245), "enemy_base_hp":4000,  "waves":[(0,8,1.5,2.0),(7,4,2.0,10.0),(3,2,3.0,25.0)]},
+    {"name":"Stage 4",  "bg":(130,160,200), "enemy_base_hp":5000,  "waves":[(1,6,2.0,2.0),(0,10,1.2,5.0),(3,3,3.0,20.0)]},
+    {"name":"Stage 5",  "bg":(120,150,195), "enemy_base_hp":6500,  "waves":[(1,8,1.8,2.0),(6,3,3.0,15.0),(3,4,2.5,25.0)]},
+    {"name":"Stage 6",  "bg":(110,140,190), "enemy_base_hp":8000,  "waves":[(5,4,2.5,2.0),(3,5,2.0,10.0),(4,2,4.0,30.0)]},
+    {"name":"Stage 7",  "bg":(100,130,220), "enemy_base_hp":10000, "waves":[(6,4,2.5,2.0),(1,8,1.5,10.0),(4,3,3.5,25.0)]},
+    {"name":"Stage 8",  "bg":( 90,120,215), "enemy_base_hp":13000, "waves":[(5,6,2.0,2.0),(6,4,2.5,12.0),(4,3,3.0,28.0)]},
+    {"name":"Stage 9",  "bg":( 80,110,210), "enemy_base_hp":16000, "waves":[(7,5,2.0,2.0),(5,6,1.8,10.0),(4,4,3.0,20.0)]},
+    {"name":"Stage 10", "bg":( 60, 80,160), "enemy_base_hp":25000, "waves":[(4,2,5.0,3.0),(5,4,2.5,10.0),(6,4,2.5,20.0),(4,2,4.0,35.0)]},
 ]
-
 
 DEFAULT_SAVE = {
     "cat_food": 20,
     "xp": 0,
-    "unlocked_cats": [0],       
+    "unlocked_cats": [0],
     "cat_levels": {str(i): 1 for i in range(10)},
     "stages_cleared": [],
 }
@@ -104,7 +87,6 @@ def load_save():
     if os.path.exists(SAVE_FILE):
         with open(SAVE_FILE) as f:
             data = json.load(f)
-        # Fill missing keys
         for k, v in DEFAULT_SAVE.items():
             if k not in data:
                 data[k] = v
@@ -115,7 +97,6 @@ def write_save(data):
     with open(SAVE_FILE, "w") as f:
         json.dump(data, f, indent=2)
 
-# ── Utility drawing ────────────────────────────────────────────────────────────
 font_big   = pygame.font.SysFont("Arial", 28, bold=True)
 font_med   = pygame.font.SysFont("Arial", 20, bold=True)
 font_small = pygame.font.SysFont("Arial", 15)
@@ -141,14 +122,12 @@ def draw_bar(surf, x, y, w, h, val, mx, fg, bg=C_HP_BG, border=True):
         pygame.draw.rect(surf, C_WHITE, (x, y, w, h), 1, border_radius=3)
 
 def draw_unit_shape(surf, x, y, shape, size, color, facing=1):
-    """Draw a simple shape for a unit. facing: 1=right (cat), -1=left (enemy)."""
     lighter = tuple(min(255, c+60) for c in color)
     darker  = tuple(max(0,   c-60) for c in color)
     if shape == "round":
         pygame.draw.circle(surf, color,   (x, y), size)
         pygame.draw.circle(surf, lighter, (x - size//4, y - size//4), size//3)
         pygame.draw.circle(surf, darker,  (x, y), size, 2)
-        # eyes
         ex = x + facing * size//3
         pygame.draw.circle(surf, C_WHITE, (ex, y - size//5), size//5)
         pygame.draw.circle(surf, C_BLACK, (ex + facing*2, y - size//5), size//8)
@@ -184,7 +163,6 @@ def draw_unit_shape(surf, x, y, shape, size, color, facing=1):
         pygame.draw.circle(surf, C_WHITE, (ex, y - size//4), size//4)
         pygame.draw.circle(surf, C_BLACK, (ex + facing*2, y - size//4), size//6)
 
-# ── Particle system ────────────────────────────────────────────────────────────
 class Particle:
     def __init__(self, x, y, color, vx, vy, life, size=4):
         self.x, self.y = x, y
@@ -216,7 +194,6 @@ def emit(x, y, color, n=8):
                                    random.uniform(0.4, 0.9),
                                    random.randint(3, 6)))
 
-
 class Projectile:
     def __init__(self, x, y, target_x, speed, dmg, color, is_cannon=False):
         self.x, self.y = float(x), float(y)
@@ -226,7 +203,6 @@ class Projectile:
         self.color = color
         self.is_cannon = is_cannon
         self.alive = True
-        # arc
         self.start_x = x
         self.dist = abs(target_x - x)
         self.traveled = 0.0
@@ -258,7 +234,6 @@ class Projectile:
         else:
             pygame.draw.circle(surf, self.color, (sx, sy), 5)
 
-
 class Unit:
     def __init__(self, x, defn, level=1, is_enemy=False):
         self.x = float(x)
@@ -277,15 +252,12 @@ class Unit:
         self.attacking = False
         self.hit_flash = 0.0
         self.y = GROUND_Y
-        # bobbing
         self.bob_t = random.uniform(0, math.pi*2)
 
     def update(self, dt, allies, enemies, projectiles, cam_x):
         self.atk_timer   = max(0, self.atk_timer - dt)
         self.hit_flash   = max(0, self.hit_flash - dt)
         self.bob_t += dt * 3
-
-        # find nearest target (enemies parameter is always the hostile side)
         targets = enemies
         nearest = None
         nearest_d = 9999
@@ -295,7 +267,6 @@ class Unit:
                 if d < nearest_d:
                     nearest_d = d
                     nearest = t
-
         if nearest and nearest_d <= self.range:
             self.attacking = True
             if self.atk_timer <= 0:
@@ -303,7 +274,6 @@ class Unit:
                 nearest.take_hit(self.dmg, projectiles, self.x)
         else:
             self.attacking = False
-            # move toward enemy base
             dir = 1 if not self.is_enemy else -1
             self.x += dir * self.spd * dt * 60
 
@@ -324,7 +294,9 @@ class Unit:
             color = C_WHITE
         facing = 1 if not self.is_enemy else -1
         draw_unit_shape(surf, sx, sy, self.defn.get("shape","round"), self.defn["size"], color, facing)
-
+        bw = self.defn["size"] * 2 + 10
+        draw_bar(surf, sx - bw//2, sy - self.defn["size"] - 10, bw, 6,
+                 self.hp, self.max_hp, C_GREEN if not self.is_enemy else C_RED)
 
 class Base:
     def __init__(self, x, hp, color, is_enemy=False):
@@ -348,22 +320,17 @@ class Base:
         sx = int(self.x - cam_x)
         color = C_WHITE if self.hit_flash > 0 else self.color
         self.hit_flash = max(0, self.hit_flash - 1/60)
-        # Tower body
         pygame.draw.rect(surf, color, (sx-30, GROUND_Y-120, 60, 120), border_radius=4)
         pygame.draw.rect(surf, tuple(max(0,c-40) for c in self.color),
                          (sx-30, GROUND_Y-120, 60, 120), 3, border_radius=4)
-        # Battlements
         for i in range(3):
             bx = sx - 22 + i*22
             pygame.draw.rect(surf, color, (bx, GROUND_Y-135, 14, 20), border_radius=2)
-        # Flag
         pygame.draw.line(surf, (180,180,180), (sx, GROUND_Y-120), (sx, GROUND_Y-160), 2)
         fc = C_RED if self.is_enemy else C_BLUE
         pygame.draw.polygon(surf, fc, [(sx, GROUND_Y-160),(sx+20, GROUND_Y-150),(sx, GROUND_Y-140)])
-        # HP bar
         draw_bar(surf, sx-50, GROUND_Y-155, 100, 10, self.hp, self.max_hp,
                  C_GREEN if not self.is_enemy else C_RED)
-
 
 class CatCannon:
     COOLDOWN = 20.0
@@ -383,7 +350,6 @@ class CatCannon:
         if not self.ready:
             return
         self.timer = self.COOLDOWN
-        # aim at nearest enemy (or enemy base)
         tx = None
         for t in targets:
             if t.alive:
@@ -394,11 +360,10 @@ class CatCannon:
         projectiles.append(Projectile(src_x, GROUND_Y - 80, tx,
                                        6, self.DAMAGE, C_YELLOW, is_cannon=True))
 
-
 class WaveSpawner:
     def __init__(self, stage_def, spawn_x):
         self.spawn_x = spawn_x
-        self.queue = []  # (time, enemy_id)
+        self.queue = []
         t = 0.0
         for wave in stage_def["waves"]:
             eid, count, interval, delay = wave
@@ -416,7 +381,6 @@ class WaveSpawner:
             edef = ENEMY_DEFS[eid]
             enemies.append(Unit(self.spawn_x, edef, level=1, is_enemy=True))
 
-
 shake_timer = 0.0
 shake_mag   = 0.0
 
@@ -433,10 +397,9 @@ def get_shake():
                 random.randint(-int(shake_mag), int(shake_mag)))
     return (0, 0)
 
-
 class DeployBar:
     MAX_ENERGY = 100.0
-    REGEN = 4.0  # per second
+    REGEN = 4.0
 
     def __init__(self, unlocked, cat_levels):
         self.energy = 0.0
@@ -466,19 +429,16 @@ class DeployBar:
         return True
 
     def draw(self, surf, save):
-        # Background panel
         panel_h = 150
         panel_surf = pygame.Surface((SW, panel_h), pygame.SRCALPHA)
         panel_surf.fill((10, 10, 20, 200))
         surf.blit(panel_surf, (0, SH - panel_h))
 
-        # Energy bar
         draw_text(surf, f"Energy: {int(self.energy)}/{int(self.MAX_ENERGY)}",
                   10, SH - panel_h + 8, font_small, C_XP)
         draw_bar(surf, 10, SH - panel_h + 26, 200, 12,
                  self.energy, self.MAX_ENERGY, C_XP, (30,30,60))
 
-        # Cat buttons (only unlocked, up to 8 visible)
         visible = [i for i in range(10) if i in self.unlocked]
         for idx, cid in enumerate(visible[:8]):
             bx = 10 + idx * 100
@@ -493,7 +453,6 @@ class DeployBar:
             pygame.draw.rect(surf, bg_c,    (bx, by, bw, bh), border_radius=6)
             pygame.draw.rect(surf, border_c,(bx, by, bw, bh), 2, border_radius=6)
 
-            # mini unit icon
             cdef = CAT_DEFS[cid]
             draw_unit_shape(surf, bx + bw//2, by + 28,
                             cdef.get("shape","round"), min(18, cdef["size"]//2),
@@ -505,21 +464,17 @@ class DeployBar:
                       C_YELLOW if can else C_GRAY, shadow=False)
 
             if cd > 0:
-                # cooldown overlay
                 ov = pygame.Surface((bw, bh), pygame.SRCALPHA)
                 ov.fill((0,0,0,120))
                 surf.blit(ov, (bx, by))
                 draw_text(surf, f"{cd:.1f}s", bx + bw//2, by + bh//2 - 8,
                           font_small, C_WHITE, center=True, shadow=True)
 
-            # key hint
             draw_text(surf, str(idx+1), bx+bw-14, by+3, font_small, (180,180,180), shadow=False)
 
-        # XP and Cat Food display
         draw_text(surf, f"XP: {save['xp']}", SW-200, SH-panel_h+8, font_med, C_XP)
         draw_text(surf, f"Cat Food: {save['cat_food']}", SW-200, SH-panel_h+34, font_med, C_YELLOW)
 
-# ── Battle scene ──────────────────────────────────────────────────────────────
 class BattleScene:
     WORLD_W = 1280
     CAT_SPAWN_X = 250
@@ -529,12 +484,12 @@ class BattleScene:
         self.save = save
         self.screen = screen
         self.stage = STAGES[stage_idx]
-        self.result = None  # None, "win", "lose"
+        self.result = None
 
         self.cam_x = 0.0
         self.units = []
         self.projectiles = []
-        self.particles_local = particles  # shared global list
+        self.particles_local = particles
 
         self.player_base = Base(150, 5000, C_BLUE, is_enemy=False)
         self.enemy_base  = Base(self.WORLD_W - 150, self.stage["enemy_base_hp"],
@@ -542,14 +497,12 @@ class BattleScene:
 
         self.spawner = WaveSpawner(self.stage, self.WORLD_W - 200)
         self.cannon  = CatCannon()
-        self.deploy  = DeployBar(save["unlocked_cats"],
-                                 save.get("cat_levels", {}))
+        self.deploy  = DeployBar(save["unlocked_cats"], save.get("cat_levels", {}))
         self.xp_gained = 0
         self.result_timer = 0.0
 
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN:
-            # Number keys deploy cats
             for i in range(8):
                 if event.key == pygame.K_1 + i:
                     vis = [c for c in range(10) if c in self.save["unlocked_cats"]]
@@ -562,7 +515,6 @@ class BattleScene:
                                  self.projectiles)
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             mx, my = event.pos
-            # Click on cat buttons
             vis = [c for c in range(10) if c in self.save["unlocked_cats"]]
             panel_h = 150
             for idx, cid in enumerate(vis[:8]):
@@ -570,7 +522,6 @@ class BattleScene:
                 by = SH - panel_h + 50
                 if bx <= mx <= bx+90 and by <= my <= by+85:
                     self.deploy.deploy(cid, self.units, self.CAT_SPAWN_X, self.save)
-            # Cannon button (top-right)
             if SW-120 <= mx <= SW-10 and 10 <= my <= 60:
                 self.cannon.fire(self.player_base.x + 30,
                                  sorted([u for u in self.units if u.is_enemy and u.alive],
@@ -594,7 +545,6 @@ class BattleScene:
             if u.alive:
                 if not u.is_enemy:
                     u.update(dt, cats, enemies + [self.enemy_base], self.projectiles, self.cam_x)
-                    # Attack enemy base if in range
                     if abs(u.x - self.enemy_base.x) <= u.range and self.enemy_base.alive:
                         if u.atk_timer <= 0:
                             u.atk_timer = u.atk_cd
@@ -610,11 +560,9 @@ class BattleScene:
                             if not self.player_base.alive:
                                 trigger_shake(10, 0.5)
 
-        # Handle projectile impacts
         for p in self.projectiles:
             p.update(dt)
             if not p.alive:
-                # impact: hit nearest enemy unit / base
                 targets = ([u for u in self.units if u.is_enemy and u.alive]
                            + ([self.enemy_base] if self.enemy_base.alive else []))
                 for t in targets:
@@ -623,7 +571,6 @@ class BattleScene:
                         trigger_shake(4, 0.15)
                         break
 
-        # Collect XP from dead enemies
         for u in self.units:
             if not u.alive and u.is_enemy and hasattr(u, '_xp_given') is False:
                 u._xp_given = True
@@ -632,7 +579,6 @@ class BattleScene:
         self.projectiles = [p for p in self.projectiles if p.alive]
         self.units = [u for u in self.units if u.alive or not hasattr(u, '_xp_given')]
 
-        # Scroll camera toward frontmost cat
         front_cats = [u.x for u in self.units if not u.is_enemy and u.alive]
         if front_cats:
             target_cam = max(front_cats) - SW * 0.4
@@ -641,7 +587,6 @@ class BattleScene:
         self.cam_x += (target_cam - self.cam_x) * 0.05
         self.cam_x = max(0, min(self.WORLD_W - SW, self.cam_x))
 
-        # Check win/lose
         if not self.enemy_base.alive:
             self.result = "win"
             self.save["xp"] += self.xp_gained + 10
@@ -653,7 +598,6 @@ class BattleScene:
             self.result = "lose"
 
     def draw_background(self):
-        # Draw background image scaled to screen
         self.screen.blit(BG_IMAGE, (0, 0))
 
     def draw(self):
@@ -661,28 +605,22 @@ class BattleScene:
 
         sx, sy = get_shake()
 
-        # Draw bases
         self.player_base.draw(self.screen, self.cam_x - sx)
         self.enemy_base.draw(self.screen, self.cam_x - sx)
 
-        # Draw units
         for u in sorted(self.units, key=lambda u: u.x):
             if u.alive:
                 u.draw(self.screen, self.cam_x - sx)
 
-        # Draw projectiles
         for p in self.projectiles:
             p.draw(self.screen, self.cam_x - sx)
 
-        # Draw particles
         particles[:] = [p for p in particles if p.update(1/60)]
         for p in particles:
             p.draw(self.screen, self.cam_x - sx)
 
-        # HUD
         self.deploy.draw(self.screen, self.save)
 
-        # Cannon button
         ready = self.cannon.ready
         cc = C_YELLOW if ready else C_GRAY
         pygame.draw.rect(self.screen, (30,30,10) if ready else (20,20,20),
@@ -695,10 +633,6 @@ class BattleScene:
         else:
             draw_text(self.screen, "[SPACE]", SW-65, 38, font_small, C_YELLOW, center=True)
 
-        # Stage name + wave progress
-        draw_text(self.screen, self.stage["name"], SW//2, 12, font_big, C_WHITE, center=True)
-
-        # Result overlay
         if self.result:
             ov = pygame.Surface((SW, SH), pygame.SRCALPHA)
             ov.fill((0,0,0,160))
@@ -714,7 +648,6 @@ class BattleScene:
             draw_text(self.screen, "Press ENTER to continue",
                       SW//2, SH//2 + 50, font_med, C_WHITE, center=True)
 
-# ── Shop scene ────────────────────────────────────────────────────────────────
 class ShopScene:
     def __init__(self, save, screen):
         self.save = save
@@ -773,9 +706,8 @@ class ShopScene:
             pygame.draw.rect(self.screen, bg,     (bx, by, 200, 190), border_radius=10)
             pygame.draw.rect(self.screen, border, (bx, by, 200, 190), 2, border_radius=10)
 
-            # Unit preview
             draw_unit_shape(self.screen, bx+100, by+65, cdef.get("shape","round"),
-                            cdef["size"]//2+8, cdef["color"] if not owned else cdef["color"], 1)
+                            cdef["size"]//2+8, cdef["color"], 1)
 
             draw_text(self.screen, cdef["name"],  bx+100, by+100, font_med, C_WHITE, center=True)
             draw_text(self.screen, f"HP:{cdef['hp']} DMG:{cdef['dmg']}", bx+100, by+125,
@@ -792,9 +724,7 @@ class ShopScene:
         if self.msg_timer > 0:
             draw_text(self.screen, self.message, SW//2, SH-50, font_big, C_YELLOW, center=True)
 
-# ── Upgrade scene ────────────────────────────────────────────────────────────
 class UpgradeScene:
-    # XP cost to go from level N to N+1
     LEVEL_COST = [0, 30, 60, 100, 150, 210, 280, 360, 450, 550]
     MAX_LEVEL  = 10
 
@@ -814,7 +744,6 @@ class UpgradeScene:
                 row = idx // 5
                 bx = 60 + col * 230
                 by = 140 + row * 210
-                # upgrade button
                 ubx, uby = bx + 50, by + 155
                 if ubx <= mx <= ubx+100 and uby <= my <= uby+30:
                     self._upgrade(idx)
@@ -834,7 +763,7 @@ class UpgradeScene:
         self.save["cat_levels"][str(cid)] = lvl + 1
         write_save(self.save)
         cname = CAT_DEFS[cid]["name"]
-        self.message = f"{cname} → Lv {lvl+1}!"
+        self.message = f"{cname} -> Lv {lvl+1}!"
         self.msg_timer = 2.0
 
     def update(self, dt):
@@ -889,7 +818,6 @@ class UpgradeScene:
         if self.msg_timer > 0:
             draw_text(self.screen, self.message, SW//2, SH-50, font_big, C_XP, center=True)
 
-# ── Stage select scene ────────────────────────────────────────────────────────
 class StageSelectScene:
     def __init__(self, save, screen):
         self.save = save
@@ -903,7 +831,7 @@ class StageSelectScene:
                 col = idx % 3
                 row = idx // 3
                 bx = 80 + col * 380
-                by = 120 + row * 140
+                by = 80 + row * 140
                 if bx <= mx <= bx+340 and by <= my <= by+110:
                     unlocked = (idx == 0 or (idx-1) in self.save["stages_cleared"])
                     if unlocked:
@@ -915,16 +843,13 @@ class StageSelectScene:
 
     def draw(self):
         self.screen.fill(C_DARK)
-        draw_text(self.screen, "SELECT STAGE: Into the Future", SW//2, 20,
-                  font_big, C_WHITE, center=True)
-        draw_text(self.screen, "Clear a stage to unlock the next",
-                  SW//2, 58, font_small, C_GRAY, center=True)
+        # No title — just the grid of stages
 
         for idx, stage in enumerate(STAGES):
             col = idx % 3
             row = idx // 3
             bx = 80 + col * 380
-            by = 120 + row * 140
+            by = 80 + row * 140
 
             cleared  = idx in self.save["stages_cleared"]
             unlocked = (idx == 0 or (idx-1) in self.save["stages_cleared"])
@@ -935,19 +860,15 @@ class StageSelectScene:
             pygame.draw.rect(self.screen, bg,     (bx, by, 340, 110), border_radius=10)
             pygame.draw.rect(self.screen, border, (bx, by, 340, 110), 2, border_radius=10)
 
-            # Stage bg color swatch
             pygame.draw.rect(self.screen, stage["bg"], (bx+10, by+10, 60, 90), border_radius=6)
 
-            draw_text(self.screen, f"Stage {idx+1}", bx+85, by+12, font_med,
+            draw_text(self.screen, stage["name"], bx+85, by+25, font_big,
                       C_WHITE if unlocked else C_GRAY)
-            draw_text(self.screen, stage["name"],    bx+85, by+38, font_med,
-                      C_YELLOW if unlocked else C_GRAY)
 
-            status = "✓ CLEARED" if cleared else ("PLAY" if unlocked else "LOCKED")
+            status = "CLEARED" if cleared else ("PLAY" if unlocked else "LOCKED")
             sc = C_GREEN if cleared else (C_WHITE if unlocked else C_GRAY)
-            draw_text(self.screen, status, bx+85, by+68, font_med, sc)
+            draw_text(self.screen, status, bx+85, by+65, font_med, sc)
 
-# ── Main menu ─────────────────────────────────────────────────────────────────
 class MenuScene:
     def __init__(self, save, screen):
         self.save = save
@@ -973,7 +894,6 @@ class MenuScene:
 
     def draw(self, t):
         self.screen.fill((10, 15, 30))
-        # Starfield
         random.seed(42)
         for _ in range(120):
             sx = random.randint(0, SW)
@@ -983,19 +903,16 @@ class MenuScene:
             pygame.draw.circle(self.screen, (bri,bri,bri), (sx,sy), r)
         random.seed()
 
-        # Title
         title_y = 80 + int(math.sin(t*1.5)*6)
         draw_text(self.screen, "BATTLE CATS", SW//2, title_y, font_big,
                   C_YELLOW, center=True)
-        draw_text(self.screen, "— Fan Clone —", SW//2, title_y+45, font_med,
+        draw_text(self.screen, "Fan Clone", SW//2, title_y+45, font_med,
                   C_WHITE, center=True)
 
-        # Stats
         cleared = len(self.save["stages_cleared"])
         draw_text(self.screen, f"Cat Food: {self.save['cat_food']}   XP: {self.save['xp']}   Stages Cleared: {cleared}/{len(STAGES)}",
                   SW//2, 195, font_small, C_XP, center=True)
 
-        # Buttons
         for i, opt in enumerate(self.options):
             bx, by = SW//2-120, 280+i*80
             hot = (i == self.hovered)
@@ -1005,7 +922,6 @@ class MenuScene:
             pygame.draw.rect(self.screen, bc, (bx, by, 240, 55), 2, border_radius=10)
             draw_text(self.screen, opt, SW//2, by+14, font_big, C_WHITE, center=True)
 
-# ── Game controller ───────────────────────────────────────────────────────────
 def main():
     screen = pygame.display.set_mode((SW, SH))
     pygame.display.set_caption("Battle Cats Clone")
@@ -1071,7 +987,6 @@ def main():
                 if scene_name == "upgrade" and upgrade:
                     upgrade.handle_event(event)
 
-        # Update
         if scene_name == "menu":
             menu.update(dt)
         elif scene_name == "stages":
@@ -1083,7 +998,6 @@ def main():
         elif scene_name == "upgrade":
             upgrade.update(dt)
 
-        # Draw
         if scene_name == "menu":
             menu.draw(t)
         elif scene_name == "stages":
