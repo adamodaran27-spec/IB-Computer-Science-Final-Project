@@ -971,7 +971,13 @@ class StageSelectScene:
             pygame.draw.rect(self.screen, bg,     (bx, by, 340, 110), border_radius=10)
             pygame.draw.rect(self.screen, border, (bx, by, 340, 110), 2, border_radius=10)
 
-            pygame.draw.rect(self.screen, stage["bg"], (bx+10, by+10, 60, 90), border_radius=6)
+            if idx < 3:
+                icon_color = (60, 130, 230)    # blue — easy
+            elif idx < 7:
+                icon_color = (255, 210, 40)    # yellow — medium
+            else:
+                icon_color = (220, 50, 50)     # red — hard
+            pygame.draw.rect(self.screen, icon_color, (bx+10, by+10, 60, 90), border_radius=6)
 
             name_font = fit_font(stage["name"], 240, start_size=22)
             draw_text(self.screen, stage["name"], bx+85, by+25, name_font,
