@@ -45,61 +45,99 @@ def load_sprites():
     _basic_cat_path = _os.path.join(_dir, "basic cat.png")
     if _os.path.exists(_basic_cat_path):
         _img = pygame.image.load(_basic_cat_path).convert_alpha()
-        CAT_SPRITES[0] = pygame.transform.scale(_img, (56, 56))
+        CAT_SPRITES[0] = pygame.transform.scale(_img, (80, 80))
     _doge_path = _os.path.join(_dir, "doge.png")
     if _os.path.exists(_doge_path):
         _img = pygame.image.load(_doge_path).convert_alpha()
-        ENEMY_SPRITES[0] = pygame.transform.scale(_img, (100, 100))
+        ENEMY_SPRITES[0] = pygame.transform.scale(_img, (120, 120))
     _titan_cat_path = _os.path.join(_dir, "titan cat.png")
     if _os.path.exists(_titan_cat_path):
         _img = pygame.image.load(_titan_cat_path).convert_alpha()
-        CAT_SPRITES[9] = pygame.transform.scale(_img, (100, 100))
+        CAT_SPRITES[9] = pygame.transform.scale(_img, (130, 130))
     _tank_cat_path = _os.path.join(_dir, "tank cat.png")
     if _os.path.exists(_tank_cat_path):
         _img = pygame.image.load(_tank_cat_path).convert_alpha()
-        CAT_SPRITES[1] = pygame.transform.scale(_img, (56, 56))
+        CAT_SPRITES[1] = pygame.transform.scale(_img, (90, 90))
     _cow_cat_path = _os.path.join(_dir, "cow cat.png")
     if _os.path.exists(_cow_cat_path):
         _img = pygame.image.load(_cow_cat_path).convert_alpha()
-        CAT_SPRITES[4] = pygame.transform.scale(_img, (56, 56))
+        CAT_SPRITES[4] = pygame.transform.scale(_img, (80, 80))
+    _gross_cat_path = _os.path.join(_dir, "gross cat.png")
+    if _os.path.exists(_gross_cat_path):
+        _img = pygame.image.load(_gross_cat_path).convert_alpha()
+        CAT_SPRITES[3] = pygame.transform.scale(_img, (80, 80))
+    _axe_cat_path = _os.path.join(_dir, "axe cat.png")
+    if _os.path.exists(_axe_cat_path):
+        _img = pygame.image.load(_axe_cat_path).convert_alpha()
+        CAT_SPRITES[2] = pygame.transform.scale(_img, (80, 80))
+    _snache_path = _os.path.join(_dir, "snache.png")
+    if _os.path.exists(_snache_path):
+        _img = pygame.image.load(_snache_path).convert_alpha()
+        ENEMY_SPRITES[1] = pygame.transform.scale(_img, (80, 80))
+    _those_guys_path = _os.path.join(_dir, "those guys.png")
+    if _os.path.exists(_those_guys_path):
+        _img = pygame.image.load(_those_guys_path).convert_alpha()
+        ENEMY_SPRITES[2] = pygame.transform.scale(_img, (75, 75))
+    _hippoe_path = _os.path.join(_dir, "hippoe.png")
+    if _os.path.exists(_hippoe_path):
+        _img = pygame.image.load(_hippoe_path).convert_alpha()
+        ENEMY_SPRITES[3] = pygame.transform.scale(_img, (110, 110))
+    _bun_bun_path = _os.path.join(_dir, "bun bun.png")
+    if _os.path.exists(_bun_bun_path):
+        _img = pygame.image.load(_bun_bun_path).convert_alpha()
+        ENEMY_SPRITES[4] = pygame.transform.scale(_img, (130, 130))
+    for _fname, _dict, _id, _sz in [
+        ("Bird Nathan.png",   CAT_SPRITES,   5, 80),
+        ("Fish Nathan.png",   CAT_SPRITES,   6, 80),
+        ("Lizard Nathan.png", CAT_SPRITES,   7, 80),
+        ("Dragon Nathan.png", CAT_SPRITES,   8, 100),
+        ("Big Arun.png",      ENEMY_SPRITES, 3, 110),
+        ("Angry Arun.png",    ENEMY_SPRITES, 5, 110),
+        ("Hyper Arun.png",    ENEMY_SPRITES, 6, 100),
+        ("Ninja Arun.png",    ENEMY_SPRITES, 7, 80),
+    ]:
+        _p = _os.path.join(_dir, _fname)
+        if _os.path.exists(_p):
+            _img = pygame.image.load(_p).convert_alpha()
+            _dict[_id] = pygame.transform.scale(_img, (_sz, _sz))
 
 CAT_DEFS = [
-    {"id":0,  "name":"Basic Cat",    "cf_cost":0,   "hp":250,  "dmg":20,  "spd":2.0, "range":60,  "atk_cd":1.8, "color":(230,200,120), "shape":"round",  "size":28},
-    {"id":1,  "name":"Tank Cat",     "cf_cost":30,  "hp":800,  "dmg":12,  "spd":1.0, "range":55,  "atk_cd":2.2, "color":(140,180,230), "shape":"round",  "size":36},
-    {"id":2,  "name":"Axe Cat",      "cf_cost":20,  "hp":350,  "dmg":55,  "spd":2.2, "range":65,  "atk_cd":2.5, "color":(200, 80, 80), "shape":"square", "size":30},
-    {"id":3,  "name":"Gross Cat",    "cf_cost":25,  "hp":300,  "dmg":30,  "spd":1.5, "range":200, "atk_cd":2.0, "color":(180,230,120), "shape":"wide",   "size":32},
-    {"id":4,  "name":"Cow Cat",      "cf_cost":30,  "hp":400,  "dmg":40,  "spd":3.5, "range":70,  "atk_cd":1.5, "color":(240,240,200), "shape":"round",  "size":30},
-    {"id":5,  "name":"Bird Cat",     "cf_cost":35,  "hp":280,  "dmg":65,  "spd":2.8, "range":80,  "atk_cd":2.0, "color":(120,200,240), "shape":"tri",    "size":30},
-    {"id":6,  "name":"Fish Cat",     "cf_cost":40,  "hp":500,  "dmg":50,  "spd":2.0, "range":90,  "atk_cd":1.8, "color":( 80,160,200), "shape":"wide",   "size":34},
-    {"id":7,  "name":"Lizard Cat",   "cf_cost":50,  "hp":600,  "dmg":80,  "spd":1.8, "range":300, "atk_cd":3.0, "color":( 80,200,120), "shape":"long",   "size":32},
-    {"id":8,  "name":"Dragon Cat",   "cf_cost":60,  "hp":750,  "dmg":100, "spd":2.0, "range":250, "atk_cd":2.5, "color":(220, 80,200), "shape":"round",  "size":40},
-    {"id":9,  "name":"Titan Cat",    "cf_cost":80,  "hp":1500, "dmg":150, "spd":1.2, "range":75,  "atk_cd":3.5, "color":( 80, 80,180), "shape":"square", "size":50},
+    {"id":0,  "name":"Nathan",        "cf_cost":0,   "hp":250,  "dmg":20,  "spd":2.0, "range":60,  "atk_cd":1.8, "color":(230,200,120), "shape":"round",  "size":28},
+    {"id":1,  "name":"Tank Nathan",   "cf_cost":30,  "hp":800,  "dmg":12,  "spd":1.0, "range":55,  "atk_cd":2.2, "color":(140,180,230), "shape":"round",  "size":36},
+    {"id":2,  "name":"Axe Nathan",    "cf_cost":20,  "hp":350,  "dmg":55,  "spd":2.2, "range":65,  "atk_cd":2.5, "color":(200, 80, 80), "shape":"square", "size":30},
+    {"id":3,  "name":"Gross Nathan",  "cf_cost":25,  "hp":300,  "dmg":30,  "spd":1.5, "range":200, "atk_cd":2.0, "color":(180,230,120), "shape":"wide",   "size":32},
+    {"id":4,  "name":"Cow Nathan",    "cf_cost":30,  "hp":400,  "dmg":40,  "spd":3.5, "range":70,  "atk_cd":1.5, "color":(240,240,200), "shape":"round",  "size":30},
+    {"id":5,  "name":"Bird Nathan",   "cf_cost":35,  "hp":280,  "dmg":65,  "spd":2.8, "range":80,  "atk_cd":2.0, "color":(120,200,240), "shape":"tri",    "size":30},
+    {"id":6,  "name":"Fish Nathan",   "cf_cost":40,  "hp":500,  "dmg":50,  "spd":2.0, "range":90,  "atk_cd":1.8, "color":( 80,160,200), "shape":"wide",   "size":34},
+    {"id":7,  "name":"Lizard Nathan", "cf_cost":50,  "hp":600,  "dmg":80,  "spd":1.8, "range":300, "atk_cd":3.0, "color":( 80,200,120), "shape":"long",   "size":32},
+    {"id":8,  "name":"Dragon Nathan", "cf_cost":60,  "hp":750,  "dmg":100, "spd":2.0, "range":250, "atk_cd":2.5, "color":(220, 80,200), "shape":"round",  "size":40},
+    {"id":9,  "name":"Titan Nathan",  "cf_cost":80,  "hp":1500, "dmg":150, "spd":1.2, "range":75,  "atk_cd":3.5, "color":( 80, 80,180), "shape":"square", "size":50},
 ]
 
 DEPLOY_ENERGY = [10, 15, 18, 14, 16, 20, 22, 25, 28, 35]
 
 ENEMY_DEFS = [
-    {"id":0, "name":"Doge",       "hp":120,  "dmg":8,   "spd":1.8, "range":55,  "atk_cd":1.5, "color":(220,170, 80), "size":26, "xp":5,  "shape":"round"},
-    {"id":1, "name":"Snache",     "hp":80,   "dmg":5,   "spd":3.0, "range":50,  "atk_cd":1.2, "color":(200,220,100), "size":22, "xp":3,  "shape":"tri"},
-    {"id":2, "name":"Those Guys", "hp":60,   "dmg":3,   "spd":2.5, "range":45,  "atk_cd":1.0, "color":(180,200,140), "size":20, "xp":2,  "shape":"round"},
-    {"id":3, "name":"Hippoe",     "hp":500,  "dmg":30,  "spd":1.2, "range":65,  "atk_cd":2.0, "color":(220,160,200), "size":40, "xp":20, "shape":"wide"},
-    {"id":4, "name":"Bun Bun",    "hp":1200, "dmg":60,  "spd":0.8, "range":80,  "atk_cd":2.5, "color":(240,200,180), "size":50, "xp":40, "shape":"square"},
-    {"id":5, "name":"Gory",       "hp":800,  "dmg":45,  "spd":1.5, "range":70,  "atk_cd":2.0, "color":(180, 80, 80), "size":42, "xp":30, "shape":"round"},
-    {"id":6, "name":"Kang Roo",   "hp":600,  "dmg":35,  "spd":2.0, "range":60,  "atk_cd":1.8, "color":(230,150, 60), "size":38, "xp":25, "shape":"tri"},
-    {"id":7, "name":"Le'boin",    "hp":300,  "dmg":20,  "spd":2.2, "range":55,  "atk_cd":1.5, "color":(160,200,240), "size":30, "xp":12, "shape":"round"},
+    {"id":0, "name":"Arun",        "hp":120,  "dmg":8,   "spd":1.8, "range":55,  "atk_cd":1.5, "color":(220,170, 80), "size":26, "xp":5,  "shape":"round"},
+    {"id":1, "name":"Speedy Arun", "hp":80,   "dmg":5,   "spd":3.0, "range":50,  "atk_cd":1.2, "color":(200,220,100), "size":22, "xp":3,  "shape":"tri"},
+    {"id":2, "name":"Mini Arun",   "hp":60,   "dmg":3,   "spd":2.5, "range":45,  "atk_cd":1.0, "color":(180,200,140), "size":20, "xp":2,  "shape":"round"},
+    {"id":3, "name":"Big Arun",    "hp":500,  "dmg":30,  "spd":1.2, "range":65,  "atk_cd":2.0, "color":(220,160,200), "size":40, "xp":20, "shape":"wide"},
+    {"id":4, "name":"Huge Arun",   "hp":1200, "dmg":60,  "spd":0.8, "range":80,  "atk_cd":2.5, "color":(240,200,180), "size":50, "xp":40, "shape":"square"},
+    {"id":5, "name":"Angry Arun",  "hp":800,  "dmg":45,  "spd":1.5, "range":70,  "atk_cd":2.0, "color":(180, 80, 80), "size":42, "xp":30, "shape":"round"},
+    {"id":6, "name":"Hyper Arun",  "hp":600,  "dmg":35,  "spd":2.0, "range":60,  "atk_cd":1.8, "color":(230,150, 60), "size":38, "xp":25, "shape":"tri"},
+    {"id":7, "name":"Ninja Arun",  "hp":300,  "dmg":20,  "spd":2.2, "range":55,  "atk_cd":1.5, "color":(160,200,240), "size":30, "xp":12, "shape":"round"},
 ]
 
 STAGES = [
-    {"name":"Stage 1",  "bg":(160,200,255), "enemy_base_hp":2000,  "waves":[(0,5,2.0,3.0),(2,8,1.5,15.0)]},
-    {"name":"Stage 2",  "bg":(150,190,250), "enemy_base_hp":3000,  "waves":[(0,6,1.8,2.0),(2,6,1.5,12.0),(1,3,2.5,20.0)]},
-    {"name":"Stage 3",  "bg":(140,180,245), "enemy_base_hp":4000,  "waves":[(0,8,1.5,2.0),(7,4,2.0,10.0),(3,2,3.0,25.0)]},
-    {"name":"Stage 4",  "bg":(130,160,200), "enemy_base_hp":5000,  "waves":[(1,6,2.0,2.0),(0,10,1.2,5.0),(3,3,3.0,20.0)]},
-    {"name":"Stage 5",  "bg":(120,150,195), "enemy_base_hp":6500,  "waves":[(1,8,1.8,2.0),(6,3,3.0,15.0),(3,4,2.5,25.0)]},
-    {"name":"Stage 6",  "bg":(110,140,190), "enemy_base_hp":8000,  "waves":[(5,4,2.5,2.0),(3,5,2.0,10.0),(4,2,4.0,30.0)]},
-    {"name":"Stage 7",  "bg":(100,130,220), "enemy_base_hp":10000, "waves":[(6,4,2.5,2.0),(1,8,1.5,10.0),(4,3,3.5,25.0)]},
-    {"name":"Stage 8",  "bg":( 90,120,215), "enemy_base_hp":13000, "waves":[(5,6,2.0,2.0),(6,4,2.5,12.0),(4,3,3.0,28.0)]},
-    {"name":"Stage 9",  "bg":( 80,110,210), "enemy_base_hp":16000, "waves":[(7,5,2.0,2.0),(5,6,1.8,10.0),(4,4,3.0,20.0)]},
-    {"name":"Stage 10", "bg":( 60, 80,160), "enemy_base_hp":25000, "waves":[(4,2,5.0,3.0),(5,4,2.5,10.0),(6,4,2.5,20.0),(4,2,4.0,35.0)]},
+    {"name":"The First Clash",        "bg":(160,200,255), "enemy_base_hp":2000,  "waves":[(0,5,2.0,3.0),(2,8,1.5,15.0)]},
+    {"name":"Arun Territory",         "bg":(150,190,250), "enemy_base_hp":3000,  "waves":[(0,6,1.8,2.0),(2,6,1.5,12.0),(1,3,2.5,20.0)]},
+    {"name":"Battle on the Bridge",   "bg":(140,180,245), "enemy_base_hp":4000,  "waves":[(0,8,1.5,2.0),(7,4,2.0,10.0),(3,2,3.0,25.0)]},
+    {"name":"Nathan's Revenge",       "bg":(130,160,200), "enemy_base_hp":5000,  "waves":[(1,6,2.0,2.0),(0,10,1.2,5.0),(3,3,3.0,20.0)]},
+    {"name":"The Arun Invasion",      "bg":(120,150,195), "enemy_base_hp":6500,  "waves":[(1,8,1.8,2.0),(6,3,3.0,15.0),(3,4,2.5,25.0)]},
+    {"name":"Chaos at the Crossroads","bg":(110,140,190), "enemy_base_hp":8000,  "waves":[(5,4,2.5,2.0),(3,5,2.0,10.0),(4,2,4.0,30.0)]},
+    {"name":"No Man's Land",          "bg":(100,130,220), "enemy_base_hp":10000, "waves":[(6,4,2.5,2.0),(1,8,1.5,10.0),(4,3,3.5,25.0)]},
+    {"name":"The Final Push",         "bg":( 90,120,215), "enemy_base_hp":13000, "waves":[(5,6,2.0,2.0),(6,4,2.5,12.0),(4,3,3.0,28.0)]},
+    {"name":"Arun Stronghold",        "bg":( 80,110,210), "enemy_base_hp":16000, "waves":[(7,5,2.0,2.0),(5,6,1.8,10.0),(4,4,3.0,20.0)]},
+    {"name":"The Last Stand",         "bg":( 60, 80,160), "enemy_base_hp":25000, "waves":[(4,2,5.0,3.0),(5,4,2.5,10.0),(6,4,2.5,20.0),(4,2,4.0,35.0)]},
 ]
 
 DEFAULT_SAVE = {
@@ -124,9 +162,19 @@ def write_save(data):
     with open(SAVE_FILE, "w") as f:
         json.dump(data, f, indent=2)
 
-font_big   = pygame.font.SysFont("Arial", 28, bold=True)
-font_med   = pygame.font.SysFont("Arial", 20, bold=True)
-font_small = pygame.font.SysFont("Arial", 15)
+font_big   = pygame.font.SysFont("Chalkboard SE", 30, bold=True)
+font_med   = pygame.font.SysFont("Chalkboard SE", 20)
+font_small = pygame.font.SysFont("Chalkboard SE", 14)
+
+def fit_font(text, max_width, start_size=14):
+    """Return a font that fits text within max_width pixels."""
+    size = start_size
+    while size > 6:
+        f = pygame.font.SysFont("Chalkboard SE", size)
+        if f.size(text)[0] <= max_width:
+            return f
+        size -= 1
+    return pygame.font.SysFont("Chalkboard SE", 6)
 
 def draw_text(surf, text, x, y, font=None, color=C_WHITE, center=False, shadow=True):
     f = font or font_med
@@ -324,9 +372,16 @@ class Unit:
         sprite_dict = ENEMY_SPRITES if self.is_enemy else CAT_SPRITES
         if unit_id in sprite_dict:
             sprite = sprite_dict[unit_id]
-            if facing == -1:
+            if facing == 1:
                 sprite = pygame.transform.flip(sprite, True, False)
             sw, sh = sprite.get_size()
+            # Drop shadow
+            shadow = pygame.Surface((sw, sh), pygame.SRCALPHA)
+            shadow.fill((0, 0, 0, 0))
+            for _dx, _dy in [(-2,2),(0,2),(2,2),(0,3)]:
+                shadow.blit(sprite, (_dx, _dy))
+            shadow.set_alpha(100)
+            surf.blit(shadow, (sx - sw // 2, sy - sh // 2))
             surf.blit(sprite, (sx - sw // 2, sy - sh // 2))
         else:
             draw_unit_shape(surf, sx, sy, self.defn.get("shape","round"), self.defn["size"], color, facing)
@@ -500,7 +555,8 @@ class DeployBar:
                                 cdef.get("shape","round"), min(18, cdef["size"]//2),
                                 cdef["color"] if can else C_GRAY, 1)
 
-            draw_text(surf, cdef["name"][:9], bx+4, by+50, font_small,
+            name_font = fit_font(cdef["name"], bw - 6)
+            draw_text(surf, cdef["name"], bx+4, by+50, name_font,
                       C_WHITE if can else C_GRAY, shadow=False)
             draw_text(surf, f"E:{DEPLOY_ENERGY[cid]}", bx+4, by+65, font_small,
                       C_YELLOW if can else C_GRAY, shadow=False)
@@ -515,7 +571,7 @@ class DeployBar:
             draw_text(surf, str(idx+1), bx+bw-14, by+3, font_small, (180,180,180), shadow=False)
 
         draw_text(surf, f"XP: {save['xp']}", SW-200, SH-panel_h+8, font_med, C_XP)
-        draw_text(surf, f"Cat Food: {save['cat_food']}", SW-200, SH-panel_h+34, font_med, C_YELLOW)
+        draw_text(surf, f"Nathan Food: {save['cat_food']}", SW-200, SH-panel_h+34, font_med, C_YELLOW)
 
 class BattleScene:
     WORLD_W = 1280
@@ -680,14 +736,14 @@ class BattleScene:
             ov.fill((0,0,0,160))
             self.screen.blit(ov, (0,0))
             if self.result == "win":
-                draw_text(self.screen, "VICTORY!", SW//2, SH//2 - 60,
+                draw_text(self.screen, "you won!", SW//2, SH//2 - 60,
                           font_big, C_YELLOW, center=True)
-                draw_text(self.screen, f"+20 Cat Food  +{self.xp_gained+10} XP",
+                draw_text(self.screen, f"+20 nathan food  +{self.xp_gained+10} xp",
                           SW//2, SH//2, font_med, C_XP, center=True)
             else:
-                draw_text(self.screen, "DEFEAT", SW//2, SH//2 - 60,
+                draw_text(self.screen, "you lost...", SW//2, SH//2 - 60,
                           font_big, C_RED, center=True)
-            draw_text(self.screen, "Press ENTER to continue",
+            draw_text(self.screen, "press enter to go back",
                       SW//2, SH//2 + 50, font_med, C_WHITE, center=True)
 
 class ShopScene:
@@ -715,7 +771,7 @@ class ShopScene:
             self.msg_timer = 2.0
             return
         if self.save["cat_food"] < cdef["cf_cost"]:
-            self.message = f"Need {cdef['cf_cost']} Cat Food!"
+            self.message = f"Need {cdef['cf_cost']} Nathan Food!"
             self.msg_timer = 2.0
             return
         self.save["cat_food"] -= cdef["cf_cost"]
@@ -729,10 +785,10 @@ class ShopScene:
 
     def draw(self):
         self.screen.fill(C_DARK)
-        draw_text(self.screen, "CAT SHOP", SW//2, 20, font_big, C_YELLOW, center=True)
-        draw_text(self.screen, f"Cat Food: {self.save['cat_food']}",
+        draw_text(self.screen, "Nathan Shop", SW//2, 20, font_big, C_YELLOW, center=True)
+        draw_text(self.screen, f"nathan food: {self.save['cat_food']}",
                   SW//2, 60, font_med, C_YELLOW, center=True)
-        draw_text(self.screen, "Click to unlock  |  Basic Cat is free",
+        draw_text(self.screen, "click a Nathan to unlock it  —  basic Nathan is free",
                   SW//2, 90, font_small, C_GRAY, center=True)
 
         for idx, cdef in enumerate(CAT_DEFS):
@@ -748,8 +804,12 @@ class ShopScene:
             pygame.draw.rect(self.screen, bg,     (bx, by, 200, 190), border_radius=10)
             pygame.draw.rect(self.screen, border, (bx, by, 200, 190), 2, border_radius=10)
 
-            draw_unit_shape(self.screen, bx+100, by+65, cdef.get("shape","round"),
-                            cdef["size"]//2+8, cdef["color"], 1)
+            if cdef["id"] in CAT_SPRITES:
+                icon = pygame.transform.scale(CAT_SPRITES[cdef["id"]], (70, 70))
+                self.screen.blit(icon, (bx + 65, by + 20))
+            else:
+                draw_unit_shape(self.screen, bx+100, by+65, cdef.get("shape","round"),
+                                cdef["size"]//2+8, cdef["color"], 1)
 
             draw_text(self.screen, cdef["name"],  bx+100, by+100, font_med, C_WHITE, center=True)
             draw_text(self.screen, f"HP:{cdef['hp']} DMG:{cdef['dmg']}", bx+100, by+125,
@@ -760,7 +820,7 @@ class ShopScene:
             if owned:
                 draw_text(self.screen, "OWNED", bx+100, by+163, font_med, C_GREEN, center=True)
             else:
-                draw_text(self.screen, f"{cdef['cf_cost']} Cat Food", bx+100, by+163,
+                draw_text(self.screen, f"{cdef['cf_cost']} Nathan Food", bx+100, by+163,
                           font_med, C_YELLOW if can else C_GRAY, center=True)
 
         if self.msg_timer > 0:
@@ -813,10 +873,10 @@ class UpgradeScene:
 
     def draw(self):
         self.screen.fill(C_DARK)
-        draw_text(self.screen, "UPGRADES", SW//2, 20, font_big, C_XP, center=True)
-        draw_text(self.screen, f"XP: {self.save['xp']}",
+        draw_text(self.screen, "Upgrades", SW//2, 20, font_big, C_XP, center=True)
+        draw_text(self.screen, f"xp: {self.save['xp']}",
                   SW//2, 60, font_med, C_XP, center=True)
-        draw_text(self.screen, "Only owned cats can be upgraded",
+        draw_text(self.screen, "unlock a Nathan first to upgrade it",
                   SW//2, 90, font_small, C_GRAY, center=True)
 
         for idx in range(10):
@@ -833,9 +893,18 @@ class UpgradeScene:
             pygame.draw.rect(self.screen, bg,     (bx, by, 200, 190), border_radius=10)
             pygame.draw.rect(self.screen, C_GRAY, (bx, by, 200, 190), 1, border_radius=10)
 
-            alpha_color = cdef["color"] if owned else C_GRAY
-            draw_unit_shape(self.screen, bx+100, by+48, cdef.get("shape","round"),
-                            cdef["size"]//2+6, alpha_color, 1)
+            if idx in CAT_SPRITES:
+                icon = pygame.transform.scale(CAT_SPRITES[idx], (60, 60))
+                if not owned:
+                    dark = pygame.Surface((60, 60), pygame.SRCALPHA)
+                    dark.fill((80, 80, 80, 160))
+                    icon = icon.copy()
+                    icon.blit(dark, (0, 0))
+                self.screen.blit(icon, (bx + 70, by + 18))
+            else:
+                alpha_color = cdef["color"] if owned else C_GRAY
+                draw_unit_shape(self.screen, bx+100, by+48, cdef.get("shape","round"),
+                                cdef["size"]//2+6, alpha_color, 1)
             draw_text(self.screen, cdef["name"],  bx+100, by+85, font_med,
                       C_WHITE if owned else C_GRAY, center=True)
             draw_text(self.screen, f"Lv {lvl}/{self.MAX_LEVEL}", bx+100, by+108,
@@ -904,10 +973,11 @@ class StageSelectScene:
 
             pygame.draw.rect(self.screen, stage["bg"], (bx+10, by+10, 60, 90), border_radius=6)
 
-            draw_text(self.screen, stage["name"], bx+85, by+25, font_big,
+            name_font = fit_font(stage["name"], 240, start_size=22)
+            draw_text(self.screen, stage["name"], bx+85, by+25, name_font,
                       C_WHITE if unlocked else C_GRAY)
 
-            status = "CLEARED" if cleared else ("PLAY" if unlocked else "LOCKED")
+            status = "cleared!" if cleared else ("play" if unlocked else "locked")
             sc = C_GREEN if cleared else (C_WHITE if unlocked else C_GRAY)
             draw_text(self.screen, status, bx+85, by+65, font_med, sc)
 
@@ -915,7 +985,7 @@ class MenuScene:
     def __init__(self, save, screen):
         self.save = save
         self.screen = screen
-        self.options = ["Play Stages", "Cat Shop", "Upgrades", "Quit"]
+        self.options = ["Play", "Shop", "Upgrades", "Quit"]
         self.hovered = -1
 
     def handle_event(self, event):
@@ -946,13 +1016,11 @@ class MenuScene:
         random.seed()
 
         title_y = 80 + int(math.sin(t*1.5)*6)
-        draw_text(self.screen, "BATTLE CATS", SW//2, title_y, font_big,
+        draw_text(self.screen, "The Nathans vs the Aruns", SW//2, title_y, font_big,
                   C_YELLOW, center=True)
-        draw_text(self.screen, "Fan Clone", SW//2, title_y+45, font_med,
-                  C_WHITE, center=True)
 
         cleared = len(self.save["stages_cleared"])
-        draw_text(self.screen, f"Cat Food: {self.save['cat_food']}   XP: {self.save['xp']}   Stages Cleared: {cleared}/{len(STAGES)}",
+        draw_text(self.screen, f"nathan food: {self.save['cat_food']}   xp: {self.save['xp']}   stages cleared: {cleared}/{len(STAGES)}",
                   SW//2, 195, font_small, C_XP, center=True)
 
         for i, opt in enumerate(self.options):
@@ -966,7 +1034,7 @@ class MenuScene:
 
 def main():
     screen = pygame.display.set_mode((SW, SH))
-    pygame.display.set_caption("Battle Cats Clone")
+    pygame.display.set_caption("The Nathans vs the Aruns")
     load_sprites()
     clock = pygame.time.Clock()
     save  = load_save()
