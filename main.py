@@ -7,12 +7,11 @@ import random
 
 pygame.init()
 
-
 SW, SH = 1280, 720
 FPS = 60
 SAVE_FILE = "save.json"
 
-# Colors
+        
 C_SKY        = (180, 220, 255)
 C_GROUND     = (100, 160,  60)
 C_DIRT       = ( 80, 120,  40)
@@ -36,7 +35,7 @@ import os as _os
 _bg_path = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "background.jpg")
 BG_IMAGE = pygame.transform.scale(pygame.image.load(_bg_path), (SW, SH))
 
-# Sprite dicts — populated in main() after display is created
+                                                             
 CAT_SPRITES = {}
 ENEMY_SPRITES = {}
 
@@ -375,7 +374,7 @@ class Unit:
             if facing == 1:
                 sprite = pygame.transform.flip(sprite, True, False)
             sw, sh = sprite.get_size()
-            # Drop shadow
+                         
             shadow = pygame.Surface((sw, sh), pygame.SRCALPHA)
             shadow.fill((0, 0, 0, 0))
             for _dx, _dy in [(-2,2),(0,2),(2,2),(0,3)]:
@@ -846,7 +845,7 @@ class UpgradeScene:
                 row = idx // 5
                 bx = 60 + col * 230
                 by = 140 + row * 210
-                ubx, uby = bx + 50, by + 155
+                ubx, uby = bx + 50, by + 150
                 if ubx <= mx <= ubx+100 and uby <= my <= uby+30:
                     self._upgrade(idx)
 
@@ -915,9 +914,9 @@ class UpgradeScene:
                     can = self.save["xp"] >= cost
                     ubg = (20,50,20) if can else (30,20,20)
                     uc  = C_GREEN if can else C_RED
-                    pygame.draw.rect(self.screen, ubg,  (bx+50, by+130, 100, 30), border_radius=6)
-                    pygame.draw.rect(self.screen, uc,   (bx+50, by+130, 100, 30), 2, border_radius=6)
-                    draw_text(self.screen, f"UP ({cost} XP)", bx+100, by+136,
+                    pygame.draw.rect(self.screen, ubg,  (bx+50, by+150, 100, 30), border_radius=6)
+                    pygame.draw.rect(self.screen, uc,   (bx+50, by+150, 100, 30), 2, border_radius=6)
+                    draw_text(self.screen, f"UP ({cost} XP)", bx+100, by+156,
                               font_small, uc, center=True)
                 else:
                     draw_text(self.screen, "MAX LEVEL", bx+100, by+140,
@@ -954,7 +953,7 @@ class StageSelectScene:
 
     def draw(self):
         self.screen.fill(C_DARK)
-        # No title — just the grid of stages
+                                            
 
         for idx, stage in enumerate(STAGES):
             col = idx % 3
@@ -972,11 +971,11 @@ class StageSelectScene:
             pygame.draw.rect(self.screen, border, (bx, by, 340, 110), 2, border_radius=10)
 
             if idx < 3:
-                icon_color = (60, 130, 230)    # blue — easy
+                icon_color = (60, 130, 230)                 
             elif idx < 7:
-                icon_color = (255, 210, 40)    # yellow — medium
+                icon_color = (255, 210, 40)                     
             else:
-                icon_color = (220, 50, 50)     # red — hard
+                icon_color = (220, 50, 50)                 
             pygame.draw.rect(self.screen, icon_color, (bx+10, by+10, 60, 90), border_radius=6)
 
             name_font = fit_font(stage["name"], 240, start_size=22)
@@ -1043,6 +1042,13 @@ def main():
     pygame.display.set_caption("The Nathans vs the Aruns")
     load_sprites()
     clock = pygame.time.Clock()
+
+                            
+    _music_path = _os.path.join(_os.path.dirname(_os.path.abspath(__file__)), "music.mp3")
+    if _os.path.exists(_music_path):
+        pygame.mixer.music.load(_music_path)
+        pygame.mixer.music.set_volume(0.5)
+        pygame.mixer.music.play(-1)                     
     save  = load_save()
 
     scene_name = "menu"
