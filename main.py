@@ -77,10 +77,6 @@ def load_sprites():
     if _os.path.exists(_those_guys_path):
         _img = pygame.image.load(_those_guys_path).convert_alpha()
         ENEMY_SPRITES[2] = pygame.transform.scale(_img, (75, 75))
-    _hippoe_path = _os.path.join(_dir, "hippoe.png")
-    if _os.path.exists(_hippoe_path):
-        _img = pygame.image.load(_hippoe_path).convert_alpha()
-        ENEMY_SPRITES[3] = pygame.transform.scale(_img, (110, 110))
     _bun_bun_path = _os.path.join(_dir, "bun bun.png")
     if _os.path.exists(_bun_bun_path):
         _img = pygame.image.load(_bun_bun_path).convert_alpha()
@@ -403,10 +399,12 @@ class Base:
             self.alive = False
             emit(self.x, GROUND_Y - 40, self.color, 20)
 
+    def update(self, dt):
+        self.hit_flash = max(0, self.hit_flash - dt)
+
     def draw(self, surf, cam_x):
         sx = int(self.x - cam_x)
         color = C_WHITE if self.hit_flash > 0 else self.color
-        self.hit_flash = max(0, self.hit_flash - 1/60)
         pygame.draw.rect(surf, color, (sx-30, GROUND_Y-120, 60, 120), border_radius=4)
         pygame.draw.rect(surf, tuple(max(0,c-40) for c in self.color),
                          (sx-30, GROUND_Y-120, 60, 120), 3, border_radius=4)
@@ -588,7 +586,7 @@ class BattleScene:
         self.projectiles = []
         self.particles_local = particles
 
-        self.player_base = Base(150, 5000, C_BLUE, is_enemy=False)
+        self.player_base = Base(150, 1000, C_BLUE, is_enemy=False)
         self.enemy_base  = Base(self.WORLD_W - 150, self.stage["enemy_base_hp"],
                                 C_RED, is_enemy=True)
 
@@ -632,6 +630,8 @@ class BattleScene:
 
         self.deploy.update(dt)
         self.cannon.update(dt)
+        self.player_base.update(dt)
+        self.enemy_base.update(dt)
 
         cats    = [u for u in self.units if not u.is_enemy and u.alive]
         enemies = [u for u in self.units if u.is_enemy     and u.alive]
@@ -642,20 +642,12 @@ class BattleScene:
             if u.alive:
                 if not u.is_enemy:
                     u.update(dt, cats, enemies + [self.enemy_base], self.projectiles, self.cam_x)
-                    if abs(u.x - self.enemy_base.x) <= u.range and self.enemy_base.alive:
-                        if u.atk_timer <= 0:
-                            u.atk_timer = u.atk_cd
-                            self.enemy_base.take_hit(u.dmg)
-                            if not self.enemy_base.alive:
-                                trigger_shake(10, 0.5)
+                    if not self.enemy_base.alive:
+                        trigger_shake(10, 0.5)
                 else:
                     u.update(dt, enemies, cats + [self.player_base], self.projectiles, self.cam_x)
-                    if abs(u.x - self.player_base.x) <= u.range and self.player_base.alive:
-                        if u.atk_timer <= 0:
-                            u.atk_timer = u.atk_cd
-                            self.player_base.take_hit(u.dmg)
-                            if not self.player_base.alive:
-                                trigger_shake(10, 0.5)
+                    if not self.player_base.alive:
+                        trigger_shake(10, 0.5)
 
         for p in self.projectiles:
             p.update(dt)
@@ -669,12 +661,12 @@ class BattleScene:
                         break
 
         for u in self.units:
-            if not u.alive and u.is_enemy and hasattr(u, '_xp_given') is False:
+            if not u.alive and u.is_enemy and not getattr(u, '_xp_given', False):
                 u._xp_given = True
                 self.xp_gained += u.defn.get("xp", 5)
 
         self.projectiles = [p for p in self.projectiles if p.alive]
-        self.units = [u for u in self.units if u.alive or not hasattr(u, '_xp_given')]
+        self.units = [u for u in self.units if u.alive]
 
         front_cats = [u.x for u in self.units if not u.is_enemy and u.alive]
         if front_cats:
